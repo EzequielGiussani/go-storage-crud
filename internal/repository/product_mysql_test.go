@@ -22,13 +22,13 @@ func init() {
 		ParseTime: true,
 	}
 
-	txdb.Register("txdbProd", "mysql", cfg.FormatDSN())
+	txdb.Register("txdb", "mysql", cfg.FormatDSN())
 }
 
 func TestProduct_GetAll(t *testing.T) {
 
 	t.Run("success - return 1", func(t *testing.T) {
-		db, err := sql.Open("txdbProd", "test_db")
+		db, err := sql.Open("txdb", "test_db")
 		require.NoError(t, err)
 		defer db.Close()
 
@@ -68,7 +68,7 @@ func TestProduct_GetAll(t *testing.T) {
 	})
 
 	t.Run("success - return 0", func(t *testing.T) {
-		db, err := sql.Open("txdbProd", "test_db")
+		db, err := sql.Open("txdb", "test_db")
 		require.NoError(t, err)
 		defer db.Close()
 
@@ -88,7 +88,7 @@ func TestProduct_GetAll(t *testing.T) {
 func TestProduct_Save(t *testing.T) {
 
 	t.Run("success - saved", func(t *testing.T) {
-		db, err := sql.Open("txdbProd", "test_db")
+		db, err := sql.Open("txdb", "test_db")
 		require.NoError(t, err)
 		defer db.Close()
 
@@ -121,7 +121,7 @@ func TestProduct_Save(t *testing.T) {
 
 func TestProduct_Delete(t *testing.T) {
 	t.Run("success - delete by id", func(t *testing.T) {
-		db, err := sql.Open("txdbProd", "test_db")
+		db, err := sql.Open("txdb", "test_db")
 		require.NoError(t, err)
 		defer db.Close()
 
@@ -151,7 +151,7 @@ func TestProduct_Delete(t *testing.T) {
 	})
 
 	t.Run("fail - not found by id", func(t *testing.T) {
-		db, err := sql.Open("txdbProd", "test_db")
+		db, err := sql.Open("txdb", "test_db")
 		require.NoError(t, err)
 		defer db.Close()
 
@@ -180,7 +180,7 @@ func TestProduct_Delete(t *testing.T) {
 func TestProduct_Update(t *testing.T) {
 
 	t.Run("success - updated", func(t *testing.T) {
-		db, err := sql.Open("txdbProd", "test_db")
+		db, err := sql.Open("txdb", "test_db")
 		require.NoError(t, err)
 		defer db.Close()
 
