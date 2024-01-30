@@ -168,3 +168,7 @@ func (r *RepositoryProductStore) Delete(id int) (err error) {
 
 	return
 }
+
+func (r *RepositoryProductStore) GetAll() (p []internal.Product, err error) {
+	return nil, nil
+}

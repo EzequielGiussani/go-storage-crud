@@ -68,6 +68,7 @@ func (a *ApplicationDefault) SetUp() (err error) {
 		r.Patch("/{id}", hd.Update())
 		// DELETE /products/{id}
 		r.Delete("/{id}", hd.Delete())
+
 	})
 
 	return

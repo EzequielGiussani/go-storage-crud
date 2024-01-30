@@ -67,6 +67,18 @@ func (a *ApplicationSql) SetUp() (err error) {
 		r.Patch("/{id}", hd.Update())
 		// DELETE /products/{id}
 		r.Delete("/{id}", hd.Delete())
+		r.Get("/", hd.GetAll())
+	})
+
+	rp2 := repository.NewRepositoryWarehouseMySql(a.db)
+
+	hd2 := handler.NewHandlerWarehouse(rp2)
+
+	a.rt.Route("/warehouses", func(r chi.Router) {
+		r.Get("/reportProducts", hd2.ReportProducts())
+		r.Get("/{id}", hd2.GetById())
+		r.Post("/", hd2.Create())
+		r.Get("/", hd2.GetAll())
 	})
 
 	return

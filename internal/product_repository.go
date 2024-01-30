@@ -20,4 +20,5 @@ type RepositoryProduct interface {
 	Update(p *Product) (err error)
 	// Delete deletes a product
 	Delete(id int) (err error)
+	GetAll() (p []Product, err error)
 }

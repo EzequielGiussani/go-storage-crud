@@ -43,7 +43,7 @@ func (r *ProductMysql) Save(p *internal.Product) (err error) {
 
 	id++
 
-	_, err = r.db.Exec("INSERT INTO `products` (`id`, `name`, `quantity`, `code_value`, `is_published`, `expiration`, `price`) VALUES (?, ?, ?, ?, ?, ?, ?)", id, p.Name, p.Quantity, p.CodeValue, p.IsPublished, p.Expiration, p.Price)
+	_, err = r.db.Exec("INSERT INTO `products` (`id`, `name`, `quantity`, `code_value`, `is_published`, `expiration`, `price`, `id_warehouse`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", id, p.Name, p.Quantity, p.CodeValue, p.IsPublished, p.Expiration, p.Price, p.WarehouseId)
 	if err != nil {
 		var mySqlErr *mysql.MySQLError
 		if errors.As(err, &mySqlErr) {
@@ -122,6 +122,32 @@ func (r *ProductMysql) Delete(id int) (err error) {
 
 	if rowsAffected == 0 {
 		err = internal.ErrRepositoryProductNotFound
+		return
+	}
+
+	return
+}
+
+func (r *ProductMysql) GetAll() (p []internal.Product, err error) {
+	rows, err := r.db.Query("SELECT p.`id`, p.`name`, p.`quantity`, p.`code_value`, p.`is_published`, p.`expiration`, p.`price` from `products` `p`")
+	if err != nil {
+		return
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var product internal.Product
+		err = rows.Scan(&product.Id, &product.Name, &product.Quantity, &product.CodeValue, &product.IsPublished, &product.Expiration, &product.Price)
+		if err != nil {
+			return
+		}
+
+		p = append(p, product)
+	}
+
+	err = rows.Err()
+	if err != nil {
 		return
 	}
 

@@ -306,3 +306,16 @@ func (h *HandlerProduct) Delete() http.HandlerFunc {
 		response.JSON(w, http.StatusNoContent, nil)
 	}
 }
+
+func (h *HandlerProduct) GetAll() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		products, err := h.rp.GetAll()
+
+		if err != nil {
+			response.Error(w, http.StatusInternalServerError, "internal server error")
+			return
+		}
+
+		response.JSON(w, http.StatusOK, products)
+	}
+}
